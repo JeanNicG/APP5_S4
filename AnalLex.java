@@ -73,7 +73,7 @@ public class AnalLex {
    * ErreurLex() envoie un message d'erreur lexicale
    */
   public void ErreurLex(String s) throws Exception {
-    System.out.println(s);
+    System.err.println("ErreurLex: " + s);
     throw new Exception(s);
   }
 

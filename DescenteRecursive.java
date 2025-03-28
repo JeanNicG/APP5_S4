@@ -5,23 +5,36 @@ package app6;
 /** Cette classe effectue l'analyse syntaxique
  */
 public class DescenteRecursive {
-
   // Attributs
+  private AnalLex lex;
+  private Terminal courant;
 
 /** Constructeur de DescenteRecursive :
       - recoit en argument le nom du fichier contenant l'expression a analyser
       - pour l'initalisation d'attribut(s)
  */
 public DescenteRecursive(String in) {
-    //
+  try{
+    Reader r = new Reader(in);
+    String input = r.toString();
+    this.lex = new AnalLex(in);
+    if(lex.resteTerminal()){
+      courant = lex.prochainTerminal();
+    }
+  }catch (Exception e) {
+    System.err.println("Erreur DescenteRecursive: " + e.getMessage());
+  }
 }
 
 
 /** AnalSynt() effectue l'analyse syntaxique et construit l'AST.
  *    Elle retourne une reference sur la racine de l'AST construit
  */
-public ElemAST AnalSynt( ) {
-   return null;
+public ElemAST AnalSynt( ) throws Exception {
+  ElemAST expr = Exp();
+  
+  if(lex.currentToken())
+  return null;
 }
 
 
