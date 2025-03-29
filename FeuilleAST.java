@@ -6,28 +6,27 @@ package app6;
  */
 public class FeuilleAST extends ElemAST {
 
-  // Attribut(s)
-  private int valeur;
-
-/**Constructeur pour l'initialisation d'attribut(s)
- */
-  public FeuilleAST(int valeur) {  // avec arguments
-      this.valeur = valeur;
-  }
+    // Attribut(s)
 
 
-  /** Evaluation de feuille d'AST
-   */
-  @Override
-  public int EvalAST( ) {
-    return this.valeur;
-  }
+    /**Constructeur pour l'initialisation d'attribut(s)
+     */
+    public FeuilleAST( ) {  // avec arguments
+        //
+    }
 
 
- /** Lecture de chaine de caracteres correspondant a la feuille d'AST
-  */
-  public String LectAST( ) {
-    return Integer.toString(this.valeur);
-  }
+    /** Evaluation de feuille d'AST
+     */
+    public int EvalAST( ) {
+        //
+    }
+
+
+    /** Lecture de chaine de caracteres correspondant a la feuille d'AST
+     */
+    public String LectAST( ) {
+        //
+    }
 
 }

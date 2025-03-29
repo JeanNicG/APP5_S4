@@ -2,84 +2,66 @@ package app6;
 
 /** @author Ahmed Khoumsi */
 
-/** Cette classe effectue l'analyse syntaxique
+/** Cette classe effectue l'analyse lexicale
  */
-public class DescenteRecursive {
-  // Attributs
-  private AnalLex lex;
-  private Terminal courant;
+public class AnalLex {
 
-/** Constructeur de DescenteRecursive :
-      - recoit en argument le nom du fichier contenant l'expression a analyser
-      - pour l'initalisation d'attribut(s)
- */
-public DescenteRecursive(String in) {
-  try{
-    Reader r = new Reader(in);
-    String input = r.toString();
-    this.lex = new AnalLex(in);
-    if(lex.resteTerminal()){
-      courant = lex.prochainTerminal();
-    }
-  }catch (Exception e) {
-    System.err.println("Erreur DescenteRecursive: " + e.getMessage());
-  }
-}
+// Attributs
+//  ...
 
 
-/** AnalSynt() effectue l'analyse syntaxique et construit l'AST.
- *    Elle retourne une reference sur la racine de l'AST construit
- */
-public ElemAST AnalSynt( ) throws Exception {
-  ElemAST expr = Exp();
-  
-  if(lex.currentToken())
-  return null;
-}
-
-
-// Methode pour chaque symbole non-terminal de la grammaire retenue
-// ... 
-// ...
-
-
-
-/** ErreurSynt() envoie un message d'erreur syntaxique
- */
-public void ErreurSynt(String s)
-{
+  /** Constructeur pour l'initialisation d'attribut(s)
+   */
+  public AnalLex( ) {  // arguments possibles
     //
-}
+  }
 
 
+  /** resteTerminal() retourne :
+   false  si tous les terminaux de l'expression arithmetique ont ete retournes
+   true s'il reste encore au moins un terminal qui n'a pas ete retourne
+   */
+  public boolean resteTerminal( ) {
+    //
+  }
 
-  //Methode principale a lancer pour tester l'analyseur syntaxique 
+
+  /** prochainTerminal() retourne le prochain terminal
+   Cette methode est une implementation d'un AEF
+   */
+  public Terminal prochainTerminal( ) {
+    //
+  }
+
+
+  /** ErreurLex() envoie un message d'erreur lexicale
+   */
+  public void ErreurLex(String s) {
+    //
+  }
+
+
+  //Methode principale a lancer pour tester l'analyseur lexical
   public static void main(String[] args) {
-    String toWriteLect = "";
-    String toWriteEval = "";
-
-    System.out.println("Debut d'analyse syntaxique");
+    String toWrite = "";
+    System.out.println("Debut d'analyse lexicale");
     if (args.length == 0){
       args = new String [2];
       args[0] = "ExpArith.txt";
-      args[1] = "ResultatSyntaxique.txt";
+      args[1] = "ResultatLexical.txt";
     }
-    DescenteRecursive dr = new DescenteRecursive(args[0]);
-    try {
-      ElemAST RacineAST = dr.AnalSynt();
-      toWriteLect += "Lecture de l'AST trouve : " + RacineAST.LectAST() + "\n";
-      System.out.println(toWriteLect);
-      toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
-      System.out.println(toWriteEval);
-      Writer w = new Writer(args[1],toWriteLect+toWriteEval); // Ecriture de toWrite 
-                                                              // dans fichier args[1]
-    } catch (Exception e) {
-      System.out.println(e);
-      e.printStackTrace();
-      System.exit(51);
-    }
-    System.out.println("Analyse syntaxique terminee");
+    Reader r = new Reader(args[0]);
+
+    AnalLex lexical = new AnalLex(r.toString()); // Creation de l'analyseur lexical
+
+    // Execution de l'analyseur lexical
+    Terminal t = null;
+    while(lexical.resteTerminal()){
+      t = lexical.prochainTerminal();
+      toWrite +=t.chaine + "\n" ;  // toWrite contient le resultat
+    }				   //    d'analyse lexicale
+    System.out.println(toWrite); 	// Ecriture de toWrite sur la console
+    Writer w = new Writer(args[1],toWrite); // Ecriture de toWrite dans fichier args[1]
+    System.out.println("Fin d'analyse lexicale");
   }
-
 }
-

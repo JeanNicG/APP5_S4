@@ -10,12 +10,12 @@ package app6;
  */
 import java.io.FileInputStream;
 /** Classe permettant d'ouvrir et de faire la Lecture d'un fichier
-  *
-  */
+ *
+ */
 public class Reader {
   String _str;
 
-  /** Constructeur prenant dans ses paramˆtre le non du fichier a ouvrir
+  /** Constructeur prenant dans ses paramï¿½tre le non du fichier a ouvrir
    * @param  String qui est le Nom du Fichier
    */
 
@@ -42,7 +42,7 @@ public class Reader {
    * @return La string contenu dans le fichier
    */
 
-public String toString(){
+  public String toString(){
     return _str;
   }
 

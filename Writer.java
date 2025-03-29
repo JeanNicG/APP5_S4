@@ -9,13 +9,13 @@ package app6;
  * @version 1.0
  */
 import java.io.FileOutputStream;
-/** Classe Permettant l'‰criture d'un fichier texte
+/** Classe Permettant l'ï¿½criture d'un fichier texte
  */
 public class Writer {
   String _str;
 
-  /** Constructeur prenant en parametre le nom du fichier et de la donnee, et 
-    * inserer celle-ci dans celui-la
+  /** Constructeur prenant en parametre le nom du fichier et de la donnee, et
+   * inserer celle-ci dans celui-la
    */
 
   public Writer(String name, String data) {
