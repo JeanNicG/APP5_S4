@@ -11,7 +11,6 @@ public class AnalLex {
   private String input;
   private int state;
 
-
   /**
    * Constructeur pour l'initialisation d'attribut(s)
    */
@@ -28,7 +27,11 @@ public class AnalLex {
    * true s'il reste encore au moins un terminal qui n'a pas ete retourne
    */
   public boolean resteTerminal() {
-    return ptrLecture < input.length();
+    int temp = ptrLecture;
+    while (temp < input.length() && Character.isWhitespace(input.charAt(temp))) {
+      temp++;
+    }
+    return temp < input.length();
   }
 
 
@@ -37,35 +40,46 @@ public class AnalLex {
    * Cette methode est une implementation d'un AEF
    */
   public Terminal prochainTerminal() throws Exception {
-    String terminalReturn = "";
-    while (resteTerminal()) {
-      char currentChar = input.charAt(ptrLecture);
-      ptrLecture++;
-      switch (state) {
-        case 0:
-          if (currentChar == '+') {
-            terminalReturn += "+";
-            return new Terminal(terminalReturn);
-          }
-          if (currentChar == '0' || currentChar == '1') {
-            state = 1;
-            terminalReturn += currentChar;
-            break;
-          }
-          ErreurLex("Erreur");
-          return null;
-        case 1:
-          if (currentChar == '0' || currentChar == '1') {
-            terminalReturn += currentChar;
-            break;
-          } else {
-            ptrLecture--;
-            state = 0;
-            return new Terminal(terminalReturn);
-          }
+    while(resteTerminal() && Character.isWhitespace(input.charAt(ptrLecture))) ptrLecture++;
+    if (!resteTerminal()) return null;
+
+    char currentChar = input.charAt(ptrLecture);
+
+    // si un chiffre lire l'entier au complet
+    if (Character.isDigit(currentChar)){
+      String stringReturn = "";
+      while(resteTerminal() && Character.isDigit((input.charAt(ptrLecture)))){
+        stringReturn += input.charAt(ptrLecture);
+        ptrLecture++;
       }
+      return new Terminal(stringReturn);
     }
-    return new Terminal(terminalReturn);
+
+    //si lettre majuscule lire un identificateur
+    if(currentChar >= 'A' && currentChar <= 'Z'){
+      String stringReturn = "";
+      stringReturn += currentChar;
+      ptrLecture++;
+      while (resteTerminal() && (Character.isLetter(input.charAt(ptrLecture)) || input.charAt(ptrLecture) == '_')){
+        stringReturn += input.charAt(ptrLecture);
+        ptrLecture++;
+      }
+      if (!stringReturn.matches("[A-Z](?:[A-Za-z]|_(?=[A-Za-z]))*")){
+        ErreurLex("Identifiant invalide " + stringReturn);
+      }
+      return new Terminal(stringReturn);
+    }
+
+    // si operateur ou parenthese
+    if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/' ||
+            currentChar == '(' || currentChar == ')') {
+      ptrLecture++;
+      return new Terminal(Character.toString(currentChar));
+    }
+
+    ErreurLex("Caractere non reconnu: " + currentChar);
+    return null;
+
   }
 
 

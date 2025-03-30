@@ -7,11 +7,11 @@ package app6;
 public class FeuilleAST extends ElemAST {
 
   // Attribut(s)
-  private int valeur;
+  private String valeur;
 
 /**Constructeur pour l'initialisation d'attribut(s)
  */
-  public FeuilleAST(int valeur) {  // avec arguments
+  public FeuilleAST(String valeur) {  // avec arguments
       this.valeur = valeur;
   }
 
@@ -20,14 +20,19 @@ public class FeuilleAST extends ElemAST {
    */
   @Override
   public int EvalAST( ) {
-    return this.valeur;
+      if(valeur.matches("\\d+")){
+          return Integer.parseInt(valeur);
+      } else{
+          ErreurEvalAST("Impossible d'evaluer l'identificateur: " + valeur);
+          return 0;
+      }
   }
 
 
  /** Lecture de chaine de caracteres correspondant a la feuille d'AST
   */
   public String LectAST( ) {
-    return Integer.toString(this.valeur);
+    return this.valeur;
   }
 
 }

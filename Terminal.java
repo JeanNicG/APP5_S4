@@ -7,18 +7,16 @@
    */
   public class Terminal {
 
-    public String chaine = "";
+    public String chaine;
 
 
   /** Un ou deux constructeurs (ou plus, si vous voulez)
     *   pour l'initalisation d'attributs
    */
     public Terminal( ) {   // arguments possibles
-       //
+       this.chaine = "";
     }
     public Terminal( String thisTerminalSym) {   // arguments possibles
-      chaine = thisTerminalSym;
+      this.chaine = thisTerminalSym;
     }
-
-
   }

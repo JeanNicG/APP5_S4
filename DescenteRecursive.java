@@ -2,6 +2,8 @@ package app6;
 
 /** @author Ahmed Khoumsi */
 
+import java.lang.annotation.ElementType;
+
 /** Cette classe effectue l'analyse syntaxique
  */
 public class DescenteRecursive {
@@ -17,7 +19,7 @@ public DescenteRecursive(String in) {
   try{
     Reader r = new Reader(in);
     String input = r.toString();
-    this.lex = new AnalLex(in);
+    this.lex = new AnalLex(input);
     if(lex.resteTerminal()){
       courant = lex.prochainTerminal();
     }
@@ -31,24 +33,70 @@ public DescenteRecursive(String in) {
  *    Elle retourne une reference sur la racine de l'AST construit
  */
 public ElemAST AnalSynt( ) throws Exception {
-  ElemAST expr = Exp();
-  
-  if(lex.currentToken())
-  return null;
+  ElemAST expr = parseExp();
+  if(lex.resteTerminal()){
+    ErreurSynt("Symboles inattendus en fin d'expression.");
+  }
+  return expr;
 }
 
 
 // Methode pour chaque symbole non-terminal de la grammaire retenue
-// ... 
-// ...
+  // Exp → Terme [ ('+' | '-') Exp ]
+  private ElemAST parseExp() throws Exception{
+    ElemAST terme = parseTerme();
+    if (courant != null && (courant.chaine.equals("+") || courant.chaine.equals("-"))){
+      String operateur = courant.chaine;
+      courant = lex.prochainTerminal();
+      ElemAST exp = parseExp(); //recursivite droite
+      return new NoeudAST(terme, operateur, exp);
+    } else {
+      return terme;
+    }
+  }
 
+  //Terme → Facteur [ ('*' | '/') Terme ]
+  private ElemAST parseTerme() throws Exception{
+    ElemAST facteur = parseFacteur();
+    if (courant != null && (courant.chaine.equals("*") || courant.chaine.equals("/"))){
+      String operateur = courant.chaine;
+      courant = lex.prochainTerminal();
+      ElemAST terme = parseTerme(); //recursivite droite
+      return new NoeudAST(facteur, operateur, terme);
+    }else{
+      return facteur;
+    }
+  }
+
+  // Facteur → <entier> | <identificateur> | '(' Exp ')'
+  private ElemAST parseFacteur() throws Exception{
+    if (courant == null){
+      ErreurSynt("Fin inattendue, un opérande ou '(' était attendu");
+    }
+    if(courant.chaine.equals("(")){
+      courant = lex.prochainTerminal();
+      ElemAST expr = parseExp();
+      if (courant == null || !courant.chaine.equals(")")){
+        ErreurSynt("')' attendu");
+      }
+      courant = lex.prochainTerminal();
+      return expr;
+    } else if (courant.chaine.matches("\\d+") || courant.chaine.matches("[A-Z](?:[A-Za-z]|_(?=[A-Za-z]))*")){
+      FeuilleAST feuille = new FeuilleAST(courant.chaine);
+      courant = lex.prochainTerminal();
+      return feuille;
+    } else {
+      ErreurSynt("Opérande attendu, trouvé : " + courant.chaine);
+    }
+    return null;
+  }
 
 
 /** ErreurSynt() envoie un message d'erreur syntaxique
  */
 public void ErreurSynt(String s)
 {
-    //
+  throw new RuntimeException("Erreur syntaxique: " + s);
 }
 
 
