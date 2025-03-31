@@ -26,10 +26,16 @@ public class AnalLex {
    * true s'il reste encore au moins un terminal qui n'a pas ete retourne
    */
   public boolean resteTerminal() {
-    while (ptrLecture < input.length() && Character.isWhitespace(input.charAt(ptrLecture))) {
-      ptrLecture++;
-    }
+    while (ptrLecture < input.length() && Character.isWhitespace(input.charAt(ptrLecture))) ptrLecture++;
     return ptrLecture < input.length();
+  }
+
+  /**
+   * lectureChar() retourne :
+   * le char a la postion du ptrLecture dans l'input
+   * */
+  public char lectureChar(){
+    return input.charAt(ptrLecture++);
   }
 
 
@@ -38,64 +44,63 @@ public class AnalLex {
    * Cette methode est une implementation d'un AEF
    */
   public Terminal prochainTerminal() throws Exception {
+    char currentChar;
     String returnString = "";
     while (resteTerminal()) {
-      char currentChar = input.charAt(ptrLecture);
       switch (state) {
         case 0:
+          currentChar = lectureChar();
           if (String.valueOf(currentChar).matches("[0-9]+")) {
             returnString += currentChar;
             state = 1;
-            ptrLecture++;
           }
           else if (String.valueOf(currentChar).matches("[A-Z]")) {
             returnString += currentChar;
             state = 2;
-            ptrLecture++;
           }
           else if (String.valueOf(currentChar).matches("[-+*/()]")) {
-            state = 0;
             returnString += currentChar;
-            ptrLecture++;
+            state = 0;
             return new Terminal(returnString, "operator");
           }
           else if (Character.isWhitespace(currentChar)) continue;
           else ErreurLex("Etat 0: n'a pas pu lire le caractère '" + currentChar + "'");
           break;
         case 1:
+          currentChar = lectureChar();
           if (String.valueOf(currentChar).matches("[0-9]+")) {
             returnString += currentChar;
             state = 1;
-            ptrLecture++;
           }
           else if (String.valueOf(currentChar).matches("[-+*/()]") | Character.isWhitespace(currentChar)) {
             state = 0;
+            ptrLecture--;
             return new Terminal(returnString, "Entier");
           }
           else ErreurLex("Etat 1: n'a pas pu lire le caractère '" + currentChar + "'");
           break;
         case 2:
+          currentChar = lectureChar();
           if (String.valueOf(currentChar).matches("[A-Za-z]")) {
             returnString += currentChar;
             state = 2;
-            ptrLecture++;
           }
           else if (String.valueOf(currentChar).matches("(_)")) {
             returnString += currentChar;
             state = 3;
-            ptrLecture++;
           }
           else if (String.valueOf(currentChar).matches("[-+*/()]") | Character.isWhitespace(currentChar)) {
             state = 0;
+            ptrLecture--;
             return new Terminal(returnString, "Identifiant");
           }
           else ErreurLex("Etat 2: n'a pas pu lire le caractère '" + currentChar + "'");
           break;
         case 3:
+          currentChar = lectureChar();
           if (String.valueOf(currentChar).matches("[A-Za-z]")) {
             returnString += currentChar;
             state = 2;
-            ptrLecture++;
           }
           else ErreurLex("Etat 3: n'a pas pu lire le caractère '" + currentChar + "'");
           break;
@@ -105,9 +110,13 @@ public class AnalLex {
       }
     }
     if (!returnString.isEmpty()) {
-      String tokenType = (state == 1) ? "Entier" : "Identifiant";
-      state = 0;
-      return new Terminal(returnString, tokenType);
+      if (state == 1) {
+        state = 0;
+        return new Terminal(returnString, "Entier");
+      } else if (state == 2) {
+        state = 0;
+        return new Terminal(returnString, "Identifiant");
+      }
     }
     return new Terminal();
   }
