@@ -9,7 +9,6 @@ public class AnalLex {
   // Attributs
   private int ptrLecture;
   private String input;
-  private int state;
 
   /**
    * Constructeur pour l'initialisation d'attribut(s)
@@ -17,7 +16,6 @@ public class AnalLex {
   public AnalLex(String input) {  // arguments possibles
     this.ptrLecture = 0;
     this.input = input;
-    this.state = 0;
   }
 
 
@@ -52,7 +50,7 @@ public class AnalLex {
         stringReturn += input.charAt(ptrLecture);
         ptrLecture++;
       }
-      return new Terminal(stringReturn);
+      return new Terminal(stringReturn, "Nombre");
     }
 
     //si lettre majuscule lire un identificateur
@@ -67,14 +65,14 @@ public class AnalLex {
       if (!stringReturn.matches("[A-Z](?:[A-Za-z]|_(?=[A-Za-z]))*")){
         ErreurLex("Identifiant invalide " + stringReturn);
       }
-      return new Terminal(stringReturn);
+      return new Terminal(stringReturn, "Identifiant");
     }
 
     // si operateur ou parenthese
     if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/' ||
             currentChar == '(' || currentChar == ')') {
       ptrLecture++;
-      return new Terminal(Character.toString(currentChar));
+      return new Terminal(Character.toString(currentChar), "Operateur");
     }
 
     ErreurLex("Caractere non reconnu: " + currentChar);

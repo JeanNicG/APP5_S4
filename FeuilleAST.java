@@ -35,4 +35,7 @@ public class FeuilleAST extends ElemAST {
     return this.valeur;
   }
 
+  public String PostFix(){
+      return this.valeur;
+  }
 }

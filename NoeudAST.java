@@ -44,6 +44,10 @@ public class NoeudAST extends ElemAST {
     return "(" + ElemGauche.LectAST() + " " + operator + " " + ElemDroite.LectAST() + ")";
   }
 
+  public String PostFix(){
+    return ElemGauche.PostFix() + " " + ElemDroite.PostFix() + " " + operator;
+  }
+
 }
 
 

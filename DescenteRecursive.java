@@ -105,6 +105,7 @@ public void ErreurSynt(String s)
   public static void main(String[] args) {
     String toWriteLect = "";
     String toWriteEval = "";
+    String toWritePostFix = "";
 
     System.out.println("Debut d'analyse syntaxique");
     if (args.length == 0){
@@ -117,9 +118,11 @@ public void ErreurSynt(String s)
       ElemAST RacineAST = dr.AnalSynt();
       toWriteLect += "Lecture de l'AST trouve : " + RacineAST.LectAST() + "\n";
       System.out.println(toWriteLect);
+      toWritePostFix += "ExpressionPostFix : " + RacineAST.PostFix() +  "\n";
+      System.out.println(toWritePostFix);
       toWriteEval += "Evaluation de l'AST trouve : " + RacineAST.EvalAST() + "\n";
       System.out.println(toWriteEval);
-      Writer w = new Writer(args[1],toWriteLect+toWriteEval); // Ecriture de toWrite 
+      Writer w = new Writer(args[1],toWriteLect+toWritePostFix+toWriteEval); // Ecriture de toWrite
                                                               // dans fichier args[1]
     } catch (Exception e) {
       System.out.println(e);

@@ -16,6 +16,8 @@ public abstract class ElemAST {
    */
   public abstract String LectAST();
 
+  public abstract String PostFix();
+
 
 /** ErreurEvalAST() envoie un message d'erreur lors de la construction d'AST
  */  
@@ -23,5 +25,4 @@ public abstract class ElemAST {
     System.err.println("ErreurEvalAST: " + s);
     throw new RuntimeException(s);
   }
-
 }

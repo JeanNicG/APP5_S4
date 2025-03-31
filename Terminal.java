@@ -8,6 +8,10 @@
   public class Terminal {
 
     public String chaine;
+    public String type;
+    //Exp -> Terme | Terme '+' Exp |  Terme '-' Exp
+    //Terme -> Facteur | Facteur '*' Terme | Facteur '/' Terme
+    //Facteur -> Entier | Identifiant | '(' Exp ')'
 
 
   /** Un ou deux constructeurs (ou plus, si vous voulez)
@@ -16,7 +20,8 @@
     public Terminal( ) {   // arguments possibles
        this.chaine = "";
     }
-    public Terminal( String thisTerminalSym) {   // arguments possibles
+    public Terminal( String thisTerminalSym, String type) {   // arguments possibles
       this.chaine = thisTerminalSym;
+      this.type = type;
     }
   }
