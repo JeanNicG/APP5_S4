@@ -81,11 +81,12 @@ public ElemAST AnalSynt( ) throws Exception {
       }
       courant = lex.prochainTerminal();
       return expr;
-    } else if (courant.chaine.matches("\\d+") || courant.chaine.matches("[A-Z](?:[A-Za-z]|_(?=[A-Za-z]))*")){
+    } else if (courant.chaine.matches("\\d+") || courant.chaine.matches("[A-Z]([A-Za-z_])*")){
       FeuilleAST feuille = new FeuilleAST(courant.chaine);
       courant = lex.prochainTerminal();
       return feuille;
-    } else {
+    }
+    else {
       ErreurSynt("Opérande attendu, trouvé : " + courant.chaine);
     }
     return null;

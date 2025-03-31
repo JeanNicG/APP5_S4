@@ -104,6 +104,11 @@ public class AnalLex {
           break;
       }
     }
+    if (!returnString.isEmpty()) {
+      String tokenType = (state == 1) ? "Entier" : "Identifiant";
+      state = 0;
+      return new Terminal(returnString, tokenType);
+    }
     return new Terminal();
   }
 
