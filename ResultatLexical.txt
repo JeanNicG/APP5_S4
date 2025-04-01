@@ -1,25 +1,8 @@
-(
-1010100
-+
-110010
-+
-1001016101
-+
-10101010
-*
-2078
-+
-4
-/
-3
-+
-4
-*
-(
-8
-+
-9
-)
-)
-/
-2
+Parenthese (
+Identificateur U_x
+Soustraction -
+Parenthese )
+Multiplication *
+Identificateur W_z
+Division /
+Nombre 35

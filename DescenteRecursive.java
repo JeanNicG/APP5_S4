@@ -71,13 +71,13 @@ public ElemAST AnalSynt( ) throws Exception {
   // Facteur → <entier> | <identificateur> | '(' Exp ')'
   private ElemAST parseFacteur() throws Exception{
     if (courant == null){
-      ErreurSynt("Fin inattendue, un opérande ou '(' était attendu");
+      ErreurSynt("Erreur apres la sequence: " + lex.getInput().substring(0, lex.getPtrLecture()-1) + "\nCause: UL interdit " + courant.chaine + "\nUL permit: (");
     }
     if(courant.chaine.equals("(")){
       courant = lex.prochainTerminal();
       ElemAST expr = parseExp();
       if (courant == null || !courant.chaine.equals(")")){
-        ErreurSynt("')' attendu");
+        ErreurSynt("Erreur apres la sequence: " + lex.getInput().substring(0, lex.getPtrLecture()-1) + "\nCause: UL interdit " + courant.chaine + "\nUL permit: )");
       }
       courant = lex.prochainTerminal();
       return expr;
@@ -87,7 +87,7 @@ public ElemAST AnalSynt( ) throws Exception {
       return feuille;
     }
     else {
-      ErreurSynt("Opérande attendu, trouvé : " + courant.chaine);
+      ErreurSynt("Erreur apres la sequence: " + lex.getInput().substring(0, lex.getPtrLecture()-1) + "\nCause: UL interdit " + courant.chaine + "\nUL permit: Identificateur, Nombre");
     }
     return null;
   }

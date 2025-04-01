@@ -61,10 +61,10 @@ public class AnalLex {
           else if (String.valueOf(currentChar).matches("[-+*/()]")) {
             returnString += currentChar;
             state = 0;
-            return new Terminal(returnString, "operator");
+            return new Terminal(returnString);
           }
           else if (Character.isWhitespace(currentChar)) continue;
-          else ErreurLex("Etat 0: n'a pas pu lire le caractère '" + currentChar + "'");
+          else ErreurLex("Erreur apres la sequence: " + input.substring(0,ptrLecture-1) + "\nCause: Caractere interdit " + currentChar + "\nCaractere permit: Lettre, Nombre, Operateur");
           break;
         case 1:
           currentChar = lectureChar();
@@ -75,9 +75,9 @@ public class AnalLex {
           else if (String.valueOf(currentChar).matches("[-+*/()]") | Character.isWhitespace(currentChar)) {
             state = 0;
             ptrLecture--;
-            return new Terminal(returnString, "Entier");
+            return new Terminal(returnString);
           }
-          else ErreurLex("Etat 1: n'a pas pu lire le caractère '" + currentChar + "'");
+          else ErreurLex("Erreur apres la sequence: " + input.substring(0,ptrLecture-1) + "\nCause: Caractere interdit " + currentChar + "\nCaractere permit: Nombre, Operateur");
           break;
         case 2:
           currentChar = lectureChar();
@@ -92,9 +92,9 @@ public class AnalLex {
           else if (String.valueOf(currentChar).matches("(\\+|-|\\*|\\/|\\(|\\))") || Character.isWhitespace(currentChar)) {
             state = 0;
             ptrLecture--;
-            return new Terminal(returnString, "Identifiant");
+            return new Terminal(returnString);
           }
-          else ErreurLex("Etat 2: n'a pas pu lire le caractère '" + currentChar + "'");
+          else ErreurLex("Erreur apres la sequence: " + input.substring(0,ptrLecture-1) + "\nCause: Caractere interdit " + currentChar + "\nCaractere permit: Lettre, Operateur, '_'");
           break;
         case 3:
           currentChar = lectureChar();
@@ -102,7 +102,7 @@ public class AnalLex {
             returnString += currentChar;
             state = 2;
           }
-          else ErreurLex("Etat 3: n'a pas pu lire le caractère '" + currentChar + "'");
+          else ErreurLex("Erreur apres la sequence: " + input.substring(0,ptrLecture-1) + "\nCause: Caractere interdit " + currentChar + "\nCaractere permit: Lettre");
           break;
         default:
           ErreurLex("Erreur de l'AEF");
@@ -112,10 +112,10 @@ public class AnalLex {
     if (!returnString.isEmpty()) {
       if (state == 1) {
         state = 0;
-        return new Terminal(returnString, "Entier");
+        return new Terminal(returnString);
       } else if (state == 2) {
         state = 0;
-        return new Terminal(returnString, "Identifiant");
+        return new Terminal(returnString);
       }
     }
     return new Terminal();
@@ -128,7 +128,12 @@ public class AnalLex {
     System.err.println("ErreurLex: " + s);
     throw new Exception(s);
   }
-
+  public String getInput(){
+    return this.input;
+  }
+  public int getPtrLecture(){
+    return this.ptrLecture;
+  }
 
   //Methode principale a lancer pour tester l'analyseur lexical
   public static void main(String[] args) {
@@ -148,7 +153,7 @@ public class AnalLex {
       Terminal t = null;
       while (lexical.resteTerminal()) {
         t = lexical.prochainTerminal();
-        toWrite += t.chaine + "\n";  // toWrite contient le resultat
+        toWrite += t.type + " " + t.chaine + "\n";  // toWrite contient le resultat
       }
       //    d'analyse lexicale
       System.out.println(toWrite);    // Ecriture de toWrite sur la console
