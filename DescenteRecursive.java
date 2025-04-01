@@ -81,7 +81,7 @@ public ElemAST AnalSynt( ) throws Exception {
       }
       courant = lex.prochainTerminal();
       return expr;
-    } else if (courant.chaine.matches("\\d+") || courant.chaine.matches("[A-Z]([A-Za-z_])*")){
+    } else if (courant.chaine.matches("\\d+") || courant.chaine.matches("[A-Z]([a-zA-Z]|_(?!_))*[a-zA-Z]")){
       FeuilleAST feuille = new FeuilleAST(courant.chaine);
       courant = lex.prochainTerminal();
       return feuille;

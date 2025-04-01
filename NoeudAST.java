@@ -1,7 +1,5 @@
 package app6;
 
-/** @author Ahmed Khoumsi */
-
 /** Classe representant une feuille d'AST
  */
 public class NoeudAST extends ElemAST {
@@ -18,7 +16,6 @@ public class NoeudAST extends ElemAST {
     this.operator = operator;
     this.ElemDroite = ElemDroite;
   }
-
  
   /** Evaluation de noeud d'AST
    */
@@ -37,17 +34,16 @@ public class NoeudAST extends ElemAST {
     }
   }
 
-
   /** Lecture de noeud d'AST
    */
   public String LectAST( ) {
     return "(" + ElemGauche.LectAST() + " " + operator + " " + ElemDroite.LectAST() + ")";
   }
-
+  /** conversion en notation PostFix
+   */
   public String PostFix(){
     return ElemGauche.PostFix() + " " + ElemDroite.PostFix() + " " + operator;
   }
-
 }
 
 

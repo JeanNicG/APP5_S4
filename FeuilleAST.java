@@ -1,7 +1,5 @@
 package app6;
 
-/** @author Ahmed Khoumsi */
-
 /** Classe representant une feuille d'AST
  */
 public class FeuilleAST extends ElemAST {
@@ -15,7 +13,6 @@ public class FeuilleAST extends ElemAST {
       this.valeur = valeur;
   }
 
-
   /** Evaluation de feuille d'AST
    */
   @Override
@@ -28,13 +25,13 @@ public class FeuilleAST extends ElemAST {
       }
   }
 
-
  /** Lecture de chaine de caracteres correspondant a la feuille d'AST
   */
   public String LectAST( ) {
     return this.valeur;
   }
-
+    /** conversion en notation PostFix
+     */
   public String PostFix(){
       return this.valeur;
   }

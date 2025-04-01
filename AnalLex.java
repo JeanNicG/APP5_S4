@@ -89,7 +89,7 @@ public class AnalLex {
             returnString += currentChar;
             state = 3;
           }
-          else if (String.valueOf(currentChar).matches("[-+*/()]") | Character.isWhitespace(currentChar)) {
+          else if (String.valueOf(currentChar).matches("(\\+|-|\\*|\\/|\\(|\\))") || Character.isWhitespace(currentChar)) {
             state = 0;
             ptrLecture--;
             return new Terminal(returnString, "Identifiant");
