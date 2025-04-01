@@ -1,6 +1,7 @@
 Parenthese (
 Identificateur U_x
 Soustraction -
+Identificateur V_y
 Parenthese )
 Multiplication *
 Identificateur W_z
