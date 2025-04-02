@@ -1,9 +1,7 @@
 Parenthese (
-Identificateur U_x
-Soustraction -
-Identificateur V_y
-Parenthese )
+Identificateur ABde_po
 Multiplication *
-Identificateur W_z
+Nombre 1243
+Parenthese )
 Division /
-Nombre 35
+Identificateur Adf

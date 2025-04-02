@@ -116,6 +116,9 @@ public class AnalLex {
       } else if (state == 2) {
         state = 0;
         return new Terminal(returnString);
+      } else if (state == 3) {
+        state = 0;
+        ErreurLex("Erreur apres la sequence: " + input.substring(0,ptrLecture-1) + "\nCause: Caractere interdit '_'"  + "\nCaractere permit: Lettre");
       }
     }
     return new Terminal();
